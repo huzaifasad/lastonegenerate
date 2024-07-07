@@ -9,11 +9,11 @@ const openai = new OpenAI({
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { quizTopic, targetAudience, numQuestions, questionType, difficulty, includeAnswers, additionalInstructions } = body;
+    const {country, quizTopic, targetAudience, numQuestions, questionType, difficulty, includeAnswers, additionalInstructions } = body;
 
-    // Construct the prompt
-    const prompt = `Generate a quiz on the topic: ${quizTopic}, for the audience: ${targetAudience}, with ${numQuestions} questions, question type: ${questionType}, difficulty level: ${difficulty}, include answers: ${includeAnswers}. Additional instructions: ${additionalInstructions}`;
-
+    // Construct the prompt{
+    const prompt = `Generate a quiz on the topic: ${quizTopic}, for the audience: ${targetAudience}, with ${numQuestions} questions, question type: ${questionType}, difficulty level: ${difficulty}, include answers: ${includeAnswers}. Additional instructions: ${additionalInstructions} with in the country ${country}`;
+   console.log(country)
     // Make a request to OpenAI
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
