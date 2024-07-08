@@ -12,7 +12,7 @@ export async function POST(req) {
     const {country, quizTopic, targetAudience, numQuestions, questionType, difficulty, includeAnswers, additionalInstructions } = body;
 
     // Construct the prompt{
-    const prompt = `Generate a quiz on the topic: ${quizTopic}, for the title of the quiz: ${quizTopic} then ‘Quiz’, for the audience: ${targetAudience}, in the country ${country}, with ${numQuestions} questions, question type: ${questionType}, difficulty level: ${difficulty}, include answers: ${includeAnswers}. Additional instructions: ${additionalInstructions}. Don’t show me any other information, just give me the title and the quiz`;
+    const prompt = `Generate a quiz on the topic: ${quizTopic}, for the title of the quiz: ${quizTopic} then ‘Quiz’, for the audience: ${targetAudience}, in the country ${country}, with ${numQuestions} questions, question type: ${questionType}, difficulty level: ${difficulty}, include answers: ${includeAnswers}. Additional instructions: ${additionalInstructions}. Don’t show me any other information, just give me the title and the quiz and not mentiond like title:liek this just title`;
    console.log(country)
     // Make a request to OpenAI
     const response = await openai.chat.completions.create({
