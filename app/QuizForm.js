@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { GlobalInfo } from "./layout";
 import ReactFlagsSelect from "react-flags-select";
+import './QuizForm.css'; // Import the custom CSS file
 
 export default function QuizForm() {
   const { data, setData } = useContext(GlobalInfo);
@@ -133,8 +134,12 @@ export default function QuizForm() {
               selected={formData.country}
               onSelect={handleCountryChange}
               countries={["US", "GB"]}
-              className="w-full p-2 bg-[#FFFFFF] border-none rounded"
+              className="custom-react-flags-select"
               placeholder="Select Country"
+              selectedSize={12}
+              optionsSize={14}
+
+
               required
             />
           </div>
@@ -179,7 +184,7 @@ export default function QuizForm() {
         </div>
         <button
           type="submit"
-          className="w-full p-2 bg-[#434343] text-[#FFFFFF] rounded flex items-center justify-center"
+          className="w-36 p-2 bg-[#434343] text-[#FFFFFF] rounded flex items-center justify-center ml-auto"
           disabled={isLoading}
         >
           {isLoading ? (
@@ -231,8 +236,8 @@ export default function QuizForm() {
       {quiz && (
         <div className="mt-4">
           <h3 className="text-xl font-semibold mb-2">Generated Quiz:</h3>
-          <div dangerouslySetInnerHTML={{ __html: quiz.split(' ').slice(0, 5).join(' ') }} />...
-          <p className="text-xl text-gray-700">If you want the full quiz, click the button below</p>
+          {/* <div dangerouslySetInnerHTML={{ __html: quiz.split(' ').slice(0, 5).join(' ') }} />... */}
+          <p className="text-1xl text-gray-700">If you want the full quiz, click the button below</p>
 
         </div>
       )}

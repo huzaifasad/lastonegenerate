@@ -13,7 +13,9 @@
     "openai": "^4.52.3",
     "react": "^18",
     "react-dom": "^18",
-    "react-flags-select": "^2.2.3"
+    "react-flags-select": "^2.2.3",
+    "react-icons": "^5.2.1",
+    "react-toastify": "^10.0.5"
   },
   "devDependencies": {
     "eslint": "^8",
