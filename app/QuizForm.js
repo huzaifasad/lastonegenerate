@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
 import { GlobalInfo } from "./layout";
 import ReactFlagsSelect from "react-flags-select";
+import { useRouter } from 'next/navigation';  // Import the useRouter hook
 import './QuizForm.css'; // Import the custom CSS file
 
 export default function QuizForm() {
   const { data, setData } = useContext(GlobalInfo);
   const [formData, setFormData] = useState({
-    country: "",
+    country: "US",
     quizTopic: "",
     targetAudience: "",
     numQuestions: 1,
@@ -17,6 +18,8 @@ export default function QuizForm() {
   });
   const [isLoading, setLoading] = useState(false);
   const [quiz, setQuiz] = useState(null);
+  
+  const router = useRouter();  // Initialize the router
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -44,6 +47,8 @@ export default function QuizForm() {
       setQuiz(result.quiz);
       setData(result.quiz);
       console.log("context data:", result.quiz);
+      
+      router.push('/about');  // Navigate to the About page
     } catch (error) {
       console.error("Error submitting form:", error);
       // Handle errors if needed
@@ -138,8 +143,6 @@ export default function QuizForm() {
               placeholder="Select Country"
               selectedSize={12}
               optionsSize={14}
-
-
               required
             />
           </div>
@@ -236,9 +239,7 @@ export default function QuizForm() {
       {quiz && (
         <div className="mt-4">
           <h3 className="text-xl font-semibold mb-2">Generated Quiz:</h3>
-          {/* <div dangerouslySetInnerHTML={{ __html: quiz.split(' ').slice(0, 5).join(' ') }} />... */}
           <p className="text-1xl text-gray-700">If you want the full quiz, click the button below</p>
-
         </div>
       )}
     </div>

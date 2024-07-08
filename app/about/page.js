@@ -88,19 +88,20 @@ export default function About() {
               <span className="ml-2">Print Content</span>
             </button>
           </div>
-          <div dangerouslySetInnerHTML={{ __html: data }} className="mt-4" />
+          <div dangerouslySetInnerHTML={{ __html: data.replace(/\n/g, '<br>') }} className="mt-4" />
         </div>
       );
     } else {
-      const clearTextLength = Math.floor(data.length * 0.2);
-      const visibleText = data.substring(0, clearTextLength);
-      const blurredText = data.substring(clearTextLength);
+      // Extract the first 10 words
+      const words = data.split(' ');
+      const firstTenWords = words.slice(0, 10).join(' ');
+      const restOfTheData = words.slice(10).join(' ');
 
       return (
         <div className="text-[#434343]">
-          <div dangerouslySetInnerHTML={{ __html: visibleText }} />
+          <div dangerouslySetInnerHTML={{ __html: firstTenWords.replace(/\n/g, '<br>') }} />
           <div
-            dangerouslySetInnerHTML={{ __html: blurredText }}
+            dangerouslySetInnerHTML={{ __html: restOfTheData.replace(/\n/g, '<br>') }}
             className="blur-lg select-none"
             style={{ filter: 'blur(5px)', pointerEvents: 'none' }}
           />
@@ -172,7 +173,6 @@ export default function About() {
       draggable
       pauseOnHover
       theme="dark"
-      
       />
     </div>
   );

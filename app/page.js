@@ -12,7 +12,7 @@ export default function Home() {
       <QuizForm />
       {data && (
         <div className="flex justify-center mt-4">
-          <Link href="/about">
+          {/* <Link href="/about">
             <button
               className="border-2 bg-[#434343] text-[#FFFFFF] py-2 px-4 rounded flex items-center justify-center hover:bg-[#333333] transition-colors duration-200"
             >
@@ -32,7 +32,7 @@ export default function Home() {
                 />
               </svg>
             </button>
-          </Link>
+          </Link> */}
         </div>
       )}
     </div>
