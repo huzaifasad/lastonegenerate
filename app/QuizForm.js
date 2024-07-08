@@ -49,7 +49,7 @@ export default function QuizForm() {
       console.log("context data:", result.quiz);
          setTimeout(() => {
       router.push('/about');
-    }, 2000);
+    }, 5000);
      // router.push('/about');  // Navigate to the About page
     } catch (error) {
       console.error("Error submitting form:", error);
