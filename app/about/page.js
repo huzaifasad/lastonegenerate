@@ -133,7 +133,7 @@ export default function About() {
           </div>
         )}
         <div className="bg-[#F3F3F3] p-4 rounded-lg text-center relative">
-          <span className="text-xl font-semibold text-[#434343]">Data: </span>
+          <span className="text-xl font-semibold text-[#434343]"></span>
           {isLoading ? (
             <div className="flex justify-center items-center mt-4">
               <svg
