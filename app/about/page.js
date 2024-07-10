@@ -2,9 +2,10 @@
 'use client'
 import React, { useContext, useState } from 'react';
 import { GlobalInfo } from '../layout';
-import { FaCopy, FaPrint } from 'react-icons/fa';
+import { FaCopy, FaPrint, FaArrowLeft } from 'react-icons/fa'; // Added FaArrowLeft icon
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/navigation';
 
 // Custom toast styles
 const customToastStyle = {
@@ -19,12 +20,15 @@ export default function About() {
   const [email, setEmail] = useState('');
   const [isEmailEntered, setIsEmailEntered] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   // Handle email change
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
-
+  const handleBack = () => {
+    router.back(); // Navigate back using Next.js's router
+  };
   // Handle email submit
   const handleEmailSubmit = () => {
     if (email) {
@@ -115,64 +119,77 @@ export default function About() {
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-3xl w-full">
         <h1 className="text-3xl font-bold mb-4 text-center text-[#434343]">Full Quiz</h1>
         <p className="text-lg text-[#434343] mb-4 text-center">This Quiz displays Here</p>
-        {!isEmailEntered && (
-          <div className="mb-4">
-            <input
-              type="email"
-              value={email}
-              onChange={handleEmailChange}
-              className="w-full p-3 border border-gray-300 rounded mb-2 focus:outline-none focus:ring-2 focus:ring-[#434343]"
-              placeholder="Enter your email"
-            />
-            <button
-              onClick={handleEmailSubmit}
-              className="w-full bg-[#434343] text-[#FFFFFF] py-2 px-4 rounded flex items-center justify-center hover:bg-[#333333] transition-colors duration-200"
-            >
-              Submit
-            </button>
-          </div>
-        )}
+        
+        {/* Email input and submit button */}
+       
+        {/* Render quiz content based on email status */}
         <div className="bg-[#F3F3F3] p-4 rounded-lg text-center relative">
+          {/* Back Button */}
+        
+            <button
+              onClick={handleBack}
+              className="absolute top-4 left-4 bg-[#434343] text-[#FFFFFF] py-2 px-3 rounded flex items-center justify-center hover:bg-[#333333] transition-colors duration-200"
+              style={{ zIndex: '10' }}
+            >
+              <FaArrowLeft className="h-5 w-5" />
+            </button>
+        
+
           <span className="text-xl font-semibold text-[#434343]">Data: </span>
           {isLoading ? (
-            <div className="flex justify-center items-center mt-4">
-              <svg
-                className="animate-spin h-8 w-8 text-[#434343]"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-              >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.964 7.964 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-            </div>
+           <></>
           ) : (
             renderContent()
           )}
         </div>
+        {!isEmailEntered && (
+          <div className="mb-4 mt-4 flex items-center justify-center">
+            <input
+              type="email"
+              value={email}
+              onChange={handleEmailChange}
+              className="w-full sm:max-w-xs p-3 border border-gray-300 rounded-l mb-2 sm:mb-0 sm:mr-2 focus:outline-none focus:ring-2 focus:ring-[#434343]"
+              placeholder="Enter your email"
+            />
+            <button
+              onClick={handleEmailSubmit}
+              className="bg-[#434343] text-[#FFFFFF] py-2 px-4 rounded-r flex items-center justify-center hover:bg-[#333333] transition-colors duration-200"
+              style={{ height: '100%' }}
+            >
+              {isLoading ? (
+                <svg
+                  className="animate-spin h-5 w-5 mr-3"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.964 7.964 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              ) : (
+                'Submit'
+              )}
+            </button>
+          </div>
+        )}
+
       </div>
+      
       <ToastContainer 
-      position="bottom-right"
-      autoClose={1000}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-      theme="dark"
+        position="bottom-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
       />
     </div>
   );

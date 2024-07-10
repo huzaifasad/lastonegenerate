@@ -1,8 +1,12 @@
 import React, { useState, useContext } from "react";
 import { GlobalInfo } from "./layout";
-import ReactFlagsSelect from "react-flags-select";
-import { useRouter } from 'next/navigation';  // Import the useRouter hook
-import './QuizForm.css'; // Import the custom CSS file
+import { useRouter } from 'next/navigation';
+import './QuizForm.css';
+import ReactCountryFlag from "react-country-flag";
+
+// Import flag images
+import FlagUS from './usimage.png'; // Replace with your actual path
+import FlagGB from './usimage.png'; // Replace with your actual path
 
 export default function QuizForm() {
   const { data, setData } = useContext(GlobalInfo);
@@ -18,21 +22,20 @@ export default function QuizForm() {
   });
   const [isLoading, setLoading] = useState(false);
   const [quiz, setQuiz] = useState(null);
-  
-  const router = useRouter();  // Initialize the router
+  const router = useRouter();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleCountryChange = (countryCode) => {
-    setFormData({ ...formData, country: countryCode });
+  const handleCountryChange = (e) => {
+    setFormData({ ...formData, country: e.target.value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true); // Set loading state to true
+    setLoading(true);
 
     try {
       const response = await fetch("/pages/api", {
@@ -47,13 +50,16 @@ export default function QuizForm() {
       setQuiz(result.quiz);
       setData(result.quiz);
       console.log("context data:", result.quiz);
-      
-      router.push('/about');  // Navigate to the About page
+
+      setTimeout(() => {
+        router.push('/about');
+      }, 5000);  // Navigate to the About page after 5 seconds
     } catch (error) {
       console.error("Error submitting form:", error);
-      // Handle errors if needed
     } finally {
-      setLoading(false); // Reset loading state after request completes
+      setTimeout(() => {
+        setLoading(false);
+      }, 5000);
     }
   };
 
@@ -135,16 +141,22 @@ export default function QuizForm() {
           </div>
           <div className="col-span-2 md:col-span-1">
             <label className="block mb-1 font-medium">Country</label>
-            <ReactFlagsSelect
-              selected={formData.country}
-              onSelect={handleCountryChange}
-              countries={["US", "GB"]}
-              className="custom-react-flags-select"
-              placeholder="Select Country"
-              selectedSize={12}
-              optionsSize={14}
-              required
-            />
+            <select
+  name="country"
+  value={formData.country}
+  onChange={handleCountryChange}
+  className="w-full p-2 bg-[#FFFFFF] border-none rounded"
+  required
+>
+  <option value="US" style={{ backgroundImage: `url('/usimage.png')` }}>
+    United States
+  </option>
+  <option value="GB" style={{ backgroundImage: `url('/gbimage.png')` }}>
+    United Kingdom
+  </option>
+</select>
+
+
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">
@@ -238,9 +250,12 @@ export default function QuizForm() {
 
       {quiz && (
         <div className="mt-4">
-          <h3 className="text-xl font-semibold mb-2">Generated Quiz:</h3>
-          <p className="text-1xl text-gray-700">If you want the full quiz, click the button below</p>
-        </div>
+        <h3 className="text-lg font-semibold mb-2 text-gray-900">Quiz Generated Successfully</h3>
+        <p className="text-sm text-gray-700">
+          Redirecting to the quiz page shortly...
+        </p>
+      </div>
+      
       )}
     </div>
   );
