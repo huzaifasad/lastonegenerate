@@ -1,8 +1,7 @@
-// Import necessary libraries
 'use client'
 import React, { useContext, useState } from 'react';
 import { GlobalInfo } from '../layout';
-import { FaCopy, FaPrint, FaArrowLeft } from 'react-icons/fa'; // Added FaArrowLeft icon
+import { FaCopy, FaPrint, FaArrowLeft } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
@@ -14,22 +13,26 @@ const customToastStyle = {
   borderRadius: '8px',
 };
 
-// About component
 export default function About() {
   const { data } = useContext(GlobalInfo);
   const [email, setEmail] = useState('');
   const [isEmailEntered, setIsEmailEntered] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isChecked, setIsChecked] = useState(false);
   const router = useRouter();
 
-  // Handle email change
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
-  const handleBack = () => {
-    router.back(); // Navigate back using Next.js's router
+
+  const handleCheckChange = (e) => {
+    setIsChecked(e.target.checked);
   };
-  // Handle email submit
+
+  const handleBack = () => {
+    router.back();
+  };
+
   const handleEmailSubmit = () => {
     if (email) {
       setIsLoading(true);
@@ -40,7 +43,6 @@ export default function About() {
     }
   };
 
-  // Copy content to clipboard
   const copyToClipboard = () => {
     const tempTextArea = document.createElement('textarea');
     tempTextArea.value = data;
@@ -49,13 +51,11 @@ export default function About() {
     document.execCommand('copy');
     document.body.removeChild(tempTextArea);
 
-    // Show toast notification
     toast.success('Content copied to clipboard!', {
       style: customToastStyle,
     });
   };
 
-  // Print content
   const printContent = () => {
     const printWindow = window.open('', '_blank');
     printWindow.document.write(`
@@ -68,10 +68,9 @@ export default function About() {
     `);
     printWindow.document.close();
     printWindow.print();
-    printWindow.close(); // Close the new window after printing
+    printWindow.close();
   };
 
-  // Render content based on email status
   const renderContent = () => {
     if (isEmailEntered) {
       return (
@@ -96,7 +95,6 @@ export default function About() {
         </div>
       );
     } else {
-      // Extract the first 10 words
       const words = data.split(' ');
       const firstTenWords = words.slice(0, 10).join(' ');
       const restOfTheData = words.slice(10).join(' ');
@@ -117,68 +115,74 @@ export default function About() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4 font-space-grotesk">
       <div className="bg-white p-8 rounded-lg shadow-lg max-w-3xl w-full">
-        <h1 className="text-3xl font-bold mb-4 text-center text-[#434343]">Full Quiz</h1>
-        <p className="text-lg text-[#434343] mb-4 text-center">This Quiz displays Here</p>
-        
-        {/* Email input and submit button */}
-       
-        {/* Render quiz content based on email status */}
+        <h1 className="text-3xl font-bold mb-4 text-center text-[#434343]">Football Quiz</h1>
+
         <div className="bg-[#F3F3F3] p-4 rounded-lg text-center relative">
-          {/* Back Button */}
-        
-            <button
-              onClick={handleBack}
-              className="absolute top-4 left-4 bg-[#434343] text-[#FFFFFF] py-2 px-3 rounded flex items-center justify-center hover:bg-[#333333] transition-colors duration-200"
-              style={{ zIndex: '10' }}
-            >
-              <FaArrowLeft className="h-5 w-5" />
-            </button>
-        
+          <button
+            onClick={handleBack}
+            className="absolute top-4 left-4 bg-[#434343] text-[#FFFFFF] py-2 px-3 rounded flex items-center justify-center hover:bg-[#333333] transition-colors duration-200"
+            style={{ zIndex: '10' }}
+          >
+            <FaArrowLeft className="h-5 w-5" />
+          </button>
 
           <span className="text-xl font-semibold text-[#434343]">Data: </span>
           {isLoading ? (
-           <></>
+            <></>
           ) : (
             renderContent()
           )}
         </div>
-        {!isEmailEntered && (
-          <div className="mb-4 mt-4 flex items-center justify-center">
-            <input
-              type="email"
-              value={email}
-              onChange={handleEmailChange}
-              className="w-full sm:max-w-xs p-3 border border-gray-300 rounded-l mb-2 sm:mb-0 sm:mr-2 focus:outline-none focus:ring-2 focus:ring-[#434343]"
-              placeholder="Enter your email"
-            />
-            <button
-              onClick={handleEmailSubmit}
-              className="bg-[#434343] text-[#FFFFFF] py-2 px-4 rounded-r flex items-center justify-center hover:bg-[#333333] transition-colors duration-200"
-              style={{ height: '100%' }}
-            >
-              {isLoading ? (
-                <svg
-                  className="animate-spin h-5 w-5 mr-3"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.964 7.964 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
-              ) : (
-                'Submit'
-              )}
-            </button>
-          </div>
-        )}
 
+        {!isEmailEntered && (
+          <>
+            <p className="text-lg font-semibold text-[#434343] mb-4 text-center mt-4">Enter your email below to get the full quiz (for free)...</p>
+            <div className="mb-4 flex items-center justify-center">
+              <div className="relative w-full sm:max-w-md">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  className="w-full p-3 pr-24 border border-gray-400 rounded mb-2 sm:mb-0 sm:mr-2 focus:outline-none focus:ring-2 focus:ring-[#434343]      outline-none ring-2 ring-[#434343]"
+                  placeholder="Email"
+                />
+                <button
+                  onClick={handleEmailSubmit}
+                  className="absolute top-0 right-0 bg-[#434343] text-[#FFFFFF] py-2 px-8  h-full hover:bg-[#333333] transition-colors duration-200"
+                >
+                  {isLoading ? (
+                    <svg
+                      className="animate-spin h-5 w-5"
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                    >
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.964 7.964 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                      ></path>
+                    </svg>
+                  ) : (
+                    'Submit'
+                  )}
+                </button>
+              </div>
+            </div>
+            <div className="flex items-center justify-center mt-4">
+              <input
+                type="checkbox"
+                checked={isChecked}
+                onChange={handleCheckChange}
+                className=" h-5 w-5 border border-gray-400 rounded-sm bg-white checked:bg-[#434343] checked:border-[#434343] focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+              />
+              <label className="text-[#434343]">Tick this box to allow us to send you quiz related emails</label>
+            </div>
+          </>
+        )}
       </div>
-      
+
       <ToastContainer 
         position="bottom-right"
         autoClose={1000}
