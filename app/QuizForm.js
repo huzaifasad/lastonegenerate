@@ -166,11 +166,7 @@ export default function QuizForm() {
 
   return (
     <div className="max-w-3xl mx-auto bg-[#f3f3f3] p-8 rounded-lg shadow-md font-space-grotesk text-[#434343]">
-<<<<<<< HEAD
        {/* <div className="flex  mb-4 justify-center">
-=======
-       <div className="flex  mb-4 justify-center">
->>>>>>> 7bf21096bc2dd7790ca2f32baac5708f75cb67f6
         <button
           onClick={() => setActiveTab('form')}
           className={`px-4 py-2  ${activeTab === 'form' ? 'bg-[#434343] text-[#FFFFFF]' : 'bg-[#E0E0E0] text-[#434343]'} transition-colors duration-200`}
@@ -184,11 +180,7 @@ export default function QuizForm() {
         >
           Quiz
         </button>
-<<<<<<< HEAD
       </div> */}
-=======
-      </div>
->>>>>>> 7bf21096bc2dd7790ca2f32baac5708f75cb67f6
       <h2 className="text-2xl font-semibold mb-2">Quiz Generator</h2>
       <p className="text-[#434343] mb-4">
         More info regarding the quiz generator should go here. More info
@@ -198,17 +190,10 @@ export default function QuizForm() {
      
 
       {activeTab === 'form' && (
-<<<<<<< HEAD
           <form onSubmit={handleSubmit} className="space-y-1">
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2 md:col-span-1">
               <label className="block mb-1 font-medium md:medium">Quiz Topic</label>
-=======
-          <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="col-span-2 md:col-span-1">
-              <label className="block mb-1 font-medium md:font-small">Quiz Topic</label>
->>>>>>> 7bf21096bc2dd7790ca2f32baac5708f75cb67f6
               <input
                 type="text"
                 name="quizTopic"
@@ -230,11 +215,7 @@ export default function QuizForm() {
               />
             </div>
           </div>
-<<<<<<< HEAD
           <div className="grid grid-cols-3 gap-4">
-=======
-          <div className="grid grid-cols-2 gap-4">
->>>>>>> 7bf21096bc2dd7790ca2f32baac5708f75cb67f6
             <div className="col-span-2 md:col-span-1">
               <label className="block mb-1 font-medium">Number of Questions</label>
               <input
@@ -262,11 +243,6 @@ export default function QuizForm() {
                 <option value="short_answer">Short Answer</option>
               </select>
             </div>
-<<<<<<< HEAD
-=======
-          </div>
-          <div className="grid grid-cols-2 gap-4">
->>>>>>> 7bf21096bc2dd7790ca2f32baac5708f75cb67f6
             <div className="col-span-2 md:col-span-1">
               <label className="block mb-1 font-medium">Difficulty</label>
               <select
@@ -281,7 +257,6 @@ export default function QuizForm() {
                 <option value="hard">Hard</option>
               </select>
             </div>
-<<<<<<< HEAD
           </div>
           <div className="grid grid-cols-2 gap-4">
         <div className="col-span-2 md:col-span-1">
@@ -314,56 +289,6 @@ export default function QuizForm() {
 
           <div className="grid grid-cols-2 gap-4">
            
-=======
-            <div className="col-span-2 md:col-span-1">
-              <label className="block mb-1 font-medium">Country</label>
-              <select
-    name="country"
-    value={formData.country}
-    onChange={handleCountryChange}
-    className="w-full p-2 bg-[#FFFFFF] border-none rounded"
-    required
-  >
-    <option value="US" style={{ backgroundImage: `url('/usimage.png')` }}>
-      United States
-    </option>
-    <option value="GB" style={{ backgroundImage: `url('/gbimage.png')` }}>
-      United Kingdom
-    </option>
-  </select>
-  
-  
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="col-span-2 md:col-span-1">
-              <label className="block mb-1 font-medium">Include Answers?</label>
-              <div className="flex space-x-4">
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="includeAnswers"
-                    value="yes"
-                    checked={formData.includeAnswers === "yes"}
-                    onChange={handleChange}
-                    className="mr-2"
-                  />
-                  Yes
-                </label>
-                <label className="flex items-center">
-                  <input
-                    type="radio"
-                    name="includeAnswers"
-                    value="no"
-                    checked={formData.includeAnswers === "no"}
-                    onChange={handleChange}
-                    className="mr-2"
-                  />
-                  No
-                </label>
-              </div>
-            </div>
->>>>>>> 7bf21096bc2dd7790ca2f32baac5708f75cb67f6
           </div>
           <div>
             <label className="block mb-1 font-medium">Other Info</label>
