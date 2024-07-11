@@ -11,7 +11,6 @@ import FlagGB from './usimage.png'; // Replace with your actual path
 
 export default function QuizForm() {
   const [isChecked, setIsChecked] = useState(false);
-
   const [formData, setFormData] = useState({
     country: 'US',
     quizTopic: '',
@@ -28,9 +27,12 @@ export default function QuizForm() {
   const [quiz, setQuiz] = useState(null);
   const [email, setEmail] = useState('');
   const [isEmailEntered, setIsEmailEntered] = useState(false);
-const handleCheckChange = (e) => {
+  const [activeTab, setActiveTab] = useState('form'); // New state for tabs
+
+  const handleCheckChange = (e) => {
     setIsChecked(e.target.checked);
   };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -43,8 +45,8 @@ const handleCheckChange = (e) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoadingx(true);
-     setIsEmailEntered(false)
-     setQuiz('')
+    setIsEmailEntered(false);
+    setQuiz('');
     try {
       const response = await fetch('/pages/api', {
         method: 'POST',
@@ -57,7 +59,7 @@ const handleCheckChange = (e) => {
       const result = await response.json();
       setQuiz(result.quiz);
       setLoadingx(false);
-
+      setActiveTab('quiz'); // Switch to quiz tab on form submission
     } catch (error) {
       console.error('Error submitting form:', error);
     } finally {
@@ -73,9 +75,8 @@ const handleCheckChange = (e) => {
     if (email) {
       setLoading(true);
       try {
-        // Simulating email submission logic with a timeout
         await new Promise((resolve) => setTimeout(resolve, 1000));
-        setIsEmailEntered(true); // Set to true once email is successfully processed
+        setIsEmailEntered(true);
       } catch (error) {
         console.error('Error submitting email:', error);
       } finally {
@@ -107,14 +108,14 @@ const handleCheckChange = (e) => {
 
   const printContent = () => {
     const printWindow = window.open('', '_blank');
-    printWindow.document.write(`
+    printWindow.document.write(
       <html>
         <head>
           <title>Print Content</title>
         </head>
         <body style="font-family: Arial, sans-serif;">${quiz}</body>
       </html>
-    `);
+    );
     printWindow.document.close();
     printWindow.print();
     printWindow.close();
@@ -124,7 +125,7 @@ const handleCheckChange = (e) => {
     if (isEmailEntered) {
       return (
         <div className="mt-4 bg-[#E0E0E0] p-4 pr-10 rounded-lg max-h-96 overflow-y-auto">
-            <div className="flex justify-end space-x-2 mt-4">
+          <div className="flex justify-end space-x-2 mt-4">
             <button
               onClick={copyToClipboard}
               className="bg-[#434343] text-[#FFFFFF] py-1 px-3 rounded flex items-center justify-center hover:bg-[#333333] transition-colors duration-200"
@@ -140,9 +141,7 @@ const handleCheckChange = (e) => {
               <span className="ml-2">Print Content</span>
             </button>
           </div>
-          {/* <h3 className="text-lg font-semibold mb-2 text-gray-900 text-center">Quiz Generated Successfully</h3> */}
           <div dangerouslySetInnerHTML={{ __html: quiz.replace(/\n/g, '<br>') }} />
-        
         </div>
       );
     } else {
@@ -152,226 +151,240 @@ const handleCheckChange = (e) => {
 
       return (
         <div className="mt-4 bg-[#E0E0E0] p-4 rounded-lg max-h-96 overflow-y-auto">
-
-        <div className="text-[#434343] mt-10 pr-10">
-          <div dangerouslySetInnerHTML={{ __html: firstTenWords.replace(/\n/g, '<br>') }} />
-          <div
-            dangerouslySetInnerHTML={{ __html: restOfTheData.replace(/\n/g, '<br>') }}
-            className="blur-lg select-none"
-            style={{ filter: 'blur(5px)', pointerEvents: 'none' }}
-          />
-        </div> 
-        </div> 
+          <div className="text-[#434343] mt-10 pr-10">
+            <div dangerouslySetInnerHTML={{ __html: firstTenWords.replace(/\n/g, '<br>') }} />
+            <div
+              dangerouslySetInnerHTML={{ __html: restOfTheData.replace(/\n/g, '<br>') }}
+              className="blur-lg select-none"
+              style={{ filter: 'blur(5px)', pointerEvents: 'none' }}
+            />
+          </div>
+        </div>
       );
     }
   };
 
   return (
     <div className="max-w-3xl mx-auto bg-[#f3f3f3] p-8 rounded-lg shadow-md font-space-grotesk text-[#434343]">
-       <h2 className="text-2xl font-semibold mb-2">Quiz Generator</h2>
+       <div className="flex  mb-4 justify-center">
+        <button
+          onClick={() => setActiveTab('form')}
+          className={`px-4 py-2  ${activeTab === 'form' ? 'bg-[#434343] text-[#FFFFFF]' : 'bg-[#E0E0E0] text-[#434343]'} transition-colors duration-200`}
+        >
+          Form
+        </button>
+        <button
+          onClick={() => setActiveTab('quiz')}
+          className={`px-4 py-2  ${activeTab === 'quiz' ? 'bg-[#434343] text-[#FFFFFF]' : 'bg-[#E0E0E0] text-[#434343]'} transition-colors duration-200`}
+          disabled={!quiz}
+        >
+          Quiz
+        </button>
+      </div>
+      <h2 className="text-2xl font-semibold mb-2">Quiz Generator</h2>
       <p className="text-[#434343] mb-4">
         More info regarding the quiz generator should go here. More info
         regarding the quiz generator should go here.
       </p>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="col-span-2 md:col-span-1">
-            <label className="block mb-1 font-medium">Quiz Topic</label>
-            <input
-              type="text"
-              name="quizTopic"
-              value={formData.quizTopic}
-              onChange={handleChange}
-              className="w-full p-2 bg-[#FFFFFF] border-none rounded"
-              required
-            />
-          </div>
-          <div className="col-span-2 md:col-span-1">
-            <label className="block mb-1 font-medium">Target Audience</label>
-            <input
-              type="text"
-              name="targetAudience"
-              value={formData.targetAudience}
-              onChange={handleChange}
-              className="w-full p-2 bg-[#FFFFFF] border-none rounded"
-              required
-            />
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="col-span-2 md:col-span-1">
-            <label className="block mb-1 font-medium">Number of Questions</label>
-            <input
-              type="number"
-              name="numQuestions"
-              value={formData.numQuestions}
-              onChange={handleChange}
-              min="1"
-              max="50"
-              className="w-full p-2 bg-[#FFFFFF] border-none rounded"
-              required
-            />
-          </div>
-          <div className="col-span-2 md:col-span-1">
-            <label className="block mb-1 font-medium">Question Type</label>
-            <select
-              name="questionType"
-              value={formData.questionType}
-              onChange={handleChange}
-              className="w-full p-2 bg-[#FFFFFF] border-none rounded"
-              required
-            >
-              <option value="true_false">True/False</option>
-              <option value="multiple_choice">Multiple Choice</option>
-              <option value="short_answer">Short Answer</option>
-            </select>
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="col-span-2 md:col-span-1">
-            <label className="block mb-1 font-medium">Difficulty</label>
-            <select
-              name="difficulty"
-              value={formData.difficulty}
-              onChange={handleChange}
-              className="w-full p-2 bg-[#FFFFFF] border-none rounded"
-              required
-            >
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
-            </select>
-          </div>
-          <div className="col-span-2 md:col-span-1">
-            <label className="block mb-1 font-medium">Country</label>
-            <select
-  name="country"
-  value={formData.country}
-  onChange={handleCountryChange}
-  className="w-full p-2 bg-[#FFFFFF] border-none rounded"
-  required
->
-  <option value="US" style={{ backgroundImage: `url('/usimage.png')` }}>
-    United States
-  </option>
-  <option value="GB" style={{ backgroundImage: `url('/gbimage.png')` }}>
-    United Kingdom
-  </option>
-</select>
 
+     
 
-          </div>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="col-span-2 md:col-span-1">
-            <label className="block mb-1 font-medium">Include Answers?</label>
-            <div className="flex space-x-4">
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  name="includeAnswers"
-                  value="yes"
-                  checked={formData.includeAnswers === "yes"}
-                  onChange={handleChange}
-                  className="mr-2"
-                />
-                Yes
-              </label>
-              <label className="flex items-center">
-                <input
-                  type="radio"
-                  name="includeAnswers"
-                  value="no"
-                  checked={formData.includeAnswers === "no"}
-                  onChange={handleChange}
-                  className="mr-2"
-                />
-                No
-              </label>
+      {activeTab === 'form' && (
+          <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="col-span-2 md:col-span-1">
+              <label className="block mb-1 font-medium md:font-small">Quiz Topic</label>
+              <input
+                type="text"
+                name="quizTopic"
+                value={formData.quizTopic}
+                onChange={handleChange}
+                className="w-full p-2 bg-[#FFFFFF] border-none rounded"
+                required
+              />
+            </div>
+            <div className="col-span-2 md:col-span-1">
+              <label className="block mb-1 font-medium">Target Audience</label>
+              <input
+                type="text"
+                name="targetAudience"
+                value={formData.targetAudience}
+                onChange={handleChange}
+                className="w-full p-2 bg-[#FFFFFF] border-none rounded"
+                required
+              />
             </div>
           </div>
-        </div>
-        <div>
-          <label className="block mb-1 font-medium">Other Info</label>
-          <textarea
-            name="additionalInstructions"
-            value={formData.additionalInstructions}
-            onChange={handleChange}
-            className="w-full p-2 bg-[#FFFFFF] border-none rounded"
-          ></textarea>
-        </div>
-        <button
-          type="submit"
-          className="w-36 p-2 bg-[#434343] text-[#FFFFFF] rounded flex items-center justify-center ml-auto"
-          disabled={isLoading}
-        >
-          {isLoadingx ? (
-            <div className="flex items-center justify-center">
-              <svg
-                className="animate-spin h-5 w-5 mr-3"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
+          <div className="grid grid-cols-2 gap-4">
+            <div className="col-span-2 md:col-span-1">
+              <label className="block mb-1 font-medium">Number of Questions</label>
+              <input
+                type="number"
+                name="numQuestions"
+                value={formData.numQuestions}
+                onChange={handleChange}
+                min="1"
+                max="50"
+                className="w-full p-2 bg-[#FFFFFF] border-none rounded"
+                required
+              />
+            </div>
+            <div className="col-span-2 md:col-span-1">
+              <label className="block mb-1 font-medium">Question Type</label>
+              <select
+                name="questionType"
+                value={formData.questionType}
+                onChange={handleChange}
+                className="w-full p-2 bg-[#FFFFFF] border-none rounded"
+                required
               >
-                <circle
-                  className="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
+                <option value="true_false">True/False</option>
+                <option value="multiple_choice">Multiple Choice</option>
+                <option value="short_answer">Short Answer</option>
+              </select>
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="col-span-2 md:col-span-1">
+              <label className="block mb-1 font-medium">Difficulty</label>
+              <select
+                name="difficulty"
+                value={formData.difficulty}
+                onChange={handleChange}
+                className="w-full p-2 bg-[#FFFFFF] border-none rounded"
+                required
+              >
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+              </select>
+            </div>
+            <div className="col-span-2 md:col-span-1">
+              <label className="block mb-1 font-medium">Country</label>
+              <select
+    name="country"
+    value={formData.country}
+    onChange={handleCountryChange}
+    className="w-full p-2 bg-[#FFFFFF] border-none rounded"
+    required
+  >
+    <option value="US" style={{ backgroundImage: `url('/usimage.png')` }}>
+      United States
+    </option>
+    <option value="GB" style={{ backgroundImage: `url('/gbimage.png')` }}>
+      United Kingdom
+    </option>
+  </select>
+  
+  
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="col-span-2 md:col-span-1">
+              <label className="block mb-1 font-medium">Include Answers?</label>
+              <div className="flex space-x-4">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="includeAnswers"
+                    value="yes"
+                    checked={formData.includeAnswers === "yes"}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  Yes
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="includeAnswers"
+                    value="no"
+                    checked={formData.includeAnswers === "no"}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  No
+                </label>
+              </div>
+            </div>
+          </div>
+          <div>
+            <label className="block mb-1 font-medium">Other Info</label>
+            <textarea
+              name="additionalInstructions"
+              value={formData.additionalInstructions}
+              onChange={handleChange}
+              className="w-full p-2 bg-[#FFFFFF] border-none rounded"
+            ></textarea>
+          </div>
+          <button
+            type="submit"
+            className="w-36 p-2 bg-[#434343] text-[#FFFFFF] rounded flex items-center justify-center ml-auto"
+            disabled={isLoading}
+          >
+            {isLoadingx ? (
+                <div className="flex items-center justify-center">
+                <svg
+                  className="animate-spin h-5 w-5 mr-3"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0c4.418 0 8 3.582 8 8s-3.582 8-8 8-8-3.582-8-8z"
+                  />
+                </svg>
+                <span>Loading</span>
+              </div>
+            ) : (
+              <>
+                Generate
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
                   stroke="currentColor"
-                  strokeWidth="4"
-                ></circle>
-                <path
-                  className="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.96 7.96 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                ></path>
-              </svg>
-              Loading...
-            </div>
-          ) : (
-            <>
-              Generate
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                className="ml-2 h-5 w-5"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M5 12h14M12 5l7 7-7 7"
-                />
-              </svg>
-            </>
-          )}
-        </button>
-      </form>
-
-      {quiz && (
-        <div className="mt-4">
-          <h3 className="text-lg font-semibold mb-2 text-gray-900 text-center">Quiz Generated Successfully</h3>
-        <p className="text-sm text-gray-700">
-        </p>
-      </div>
-      
+                  className="ml-2 h-5 w-5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M5 12h14M12 5l7 7-7 7"
+                  />
+                </svg>
+              </>
+            )}
+          </button>
+        </form>
       )}
 
-      {/* Render quiz content conditionally */}
-      {quiz && renderQuizContent()}
-
-      {quiz && !isEmailEntered && (
-        <div className="text-lg font-semibold text-[#434343] mb-4 text-center mt-4">
+      {activeTab === 'quiz' && (
+        <div>
+          {renderQuizContent()}
+          <div className="mt-4 flex justify-center">
+            <button
+              onClick={() => setActiveTab('form')}
+              className="bg-[#434343] text-[#FFFFFF] py-2 px-4 rounded hover:bg-[#333333] transition-colors duration-200"
+            >
+              Back to Form
+            </button>
+          </div>
+          {!isEmailEntered && (
+            <div className="mt-4  ">
+ <div className="text-lg font-semibold text-[#434343] mb-4 text-center mt-4">
           Enter your email below to get the full quiz (for free)...
-        </div>
-      )}
-
-      {quiz &&  !isEmailEntered && (
-        <div className="mb-4 flex items-center justify-center">
-          <div className="relative w-full sm:max-w-md">
+        </div>              <div className="relative m-auto sm:max-w-md  ">
             <input
               type="email"
               value={email}
@@ -384,37 +397,35 @@ const handleCheckChange = (e) => {
               className="absolute top-0 right-0 bg-[#434343] text-[#FFFFFF] py-2 px-8 h-full hover:bg-[#333333] transition-colors duration-200"
             >
               {isLoading ? (
-                <svg
-                  className="animate-spin h-5 w-5"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  ></circle>
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.964 7.964 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                  ></path>
-                </svg>
+                 <div className="flex items-center justify-center">
+                 <svg
+                   className="animate-spin h-5 w-5 mr-3"
+                   xmlns="http://www.w3.org/2000/svg"
+                   fill="none"
+                   viewBox="0 0 24 24"
+                 >
+                   <circle
+                     className="opacity-25"
+                     cx="12"
+                     cy="12"
+                     r="10"
+                     stroke="currentColor"
+                     strokeWidth="4"
+                   />
+                   <path
+                     className="opacity-75"
+                     fill="currentColor"
+                     d="M4 12a8 8 0 018-8V0c4.418 0 8 3.582 8 8s-3.582 8-8 8-8-3.582-8-8z"
+                   />
+                 </svg>
+                 <span>Loading</span>
+               </div>
               ) : (
                 'Submit'
               )}
             </button>
           </div>
-          
-        </div>
-        
-      )}
-      {quiz &&  !isEmailEntered && (
-        <div className="flex items-center justify-center mt-4">
+              <div className="flex items-center justify-center mt-4">
         <input
           type="checkbox"
           checked={isChecked}
@@ -423,10 +434,11 @@ const handleCheckChange = (e) => {
         />
         <label className="text-[#434343]">Tick this box to allow us to send you quiz related emails</label>
       </div>
+            </div>
+          )}
+        </div>
       )}
-         
 
-      {/* Additional UI elements */}
       <ToastContainer />
     </div>
   );
