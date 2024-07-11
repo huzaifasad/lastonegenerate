@@ -216,7 +216,7 @@ export default function QuizForm() {
             </div>
           </div>
           <div className="grid grid-cols-3 gap-4">
-            <div className="col-span-2 md:col-span-1">
+            <div className="col-span-2 md:col-span-2">
               <label className="block mb-1 font-medium">Number of Questions</label>
               <input
                 type="number"
