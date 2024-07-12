@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image'; // Use for Next.js; otherwise use <img> tag
 import FlagUS from './usimage.png'; // Replace with your actual path
-import FlagGB from './usimage.png'; // Update path for UK flag
+import FlagGB from './download (1).png'; // Update path for UK flag
 
 const options = [
   { value: 'US', label: 'US', imageSrc: FlagUS },
@@ -29,7 +29,17 @@ const CustomDropdown = ({ selectedValue, onChange }) => {
           <Image src={selectedOption?.imageSrc} alt={selectedOption?.label} width={24} height={16} />
           <span className="ml-2">{selectedOption?.label}</span>
         </div>
-        {/* <span className="ml-auto">&#9662;</span> */}
+        <span className="ml-auto">
+          {isOpen ? (
+            <svg width="19" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+          ) : (
+            <svg width="19" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          )}
+        </span>
       </button>
 
       {isOpen && (

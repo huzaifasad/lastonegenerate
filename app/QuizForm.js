@@ -5,6 +5,8 @@ import { FaCopy, FaPrint } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CustomDropdown from './CustomDropdown'; // Import the custom dropdown component
+import { FaArrowAltCircleLeft } from "react-icons/fa";
+import { IoArrowBack } from "react-icons/io5";
 
 //import Image from 'next/image';
 // Import flag images
@@ -30,7 +32,10 @@ export default function QuizForm() {
   const [email, setEmail] = useState('');
   const [isEmailEntered, setIsEmailEntered] = useState(false);
   const [activeTab, setActiveTab] = useState('form'); // New state for tabs
-
+  const [isOpen, setIsOpen] = useState(false);
+  const toggleArrow = () => {
+    setIsOpen(!isOpen); // Toggle isOpen state
+  };
   const handleCheckChange = (e) => {
     setIsChecked(e.target.checked);
   };
@@ -125,8 +130,8 @@ export default function QuizForm() {
   const renderQuizContent = () => {
     if (isEmailEntered) {
       return (
-        <div className="mt-4 bg-[#E0E0E0] p-4 pr-10 rounded-lg max-h-80 overflow-y-auto">
-          <div className="flex justify-end space-x-2 mt-4">
+        <div className="mt-4 bg-[#E0E0E0] p-2 pr-3 rounded-lg max-h-80 overflow-y-auto">
+          <div className="flex justify-end space-x-2 ">
             <button
               onClick={copyToClipboard}
               className="bg-[#434343] text-[#FFFFFF] py-1 px-3 rounded flex items-center justify-center hover:bg-[#333333] transition-colors duration-200"
@@ -151,8 +156,8 @@ export default function QuizForm() {
       const restOfTheData = words.slice(10).join(' ');
 
       return (
-        <div className="mt-4 bg-[#E0E0E0] p-4 rounded-lg max-h-96 overflow-y-auto">
-          <div className="text-[#434343] mt-10 pr-10">
+        <div className="mt-4 bg-[#E0E0E0] p-2 rounded-lg max-h-96 overflow-y-auto">
+          <div className="text-[#434343] mt-3 pr-10">
             <div dangerouslySetInnerHTML={{ __html: firstTenWords.replace(/\n/g, '<br>') }} />
             <div
               dangerouslySetInnerHTML={{ __html: restOfTheData.replace(/\n/g, '<br>') }}
@@ -182,7 +187,20 @@ export default function QuizForm() {
           Quiz
         </button>
       </div> */}
-      <h2 className="text-2xl font-semibold mb-2">Quiz Generator</h2>
+    
+
+      <h2 className="text-2xl font-semibold mb-2 flex"> {activeTab ==='quiz' && (<div>
+
+        <div className="mr-2 mb-2">
+      <button
+        onClick={() => setActiveTab('form')}
+        className="bg-[#434343] text-[#FFFFFF] p-2 rounded hover:bg-[#333333] transition-colors duration-200 flex items-center"
+      >
+        <IoArrowBack className="text-white" size={24} />
+      </button>
+    </div>
+
+</div>)}<span className='mt-1'>Quiz Generator</span></h2>
       <p className="text-[#434343] mb-4">
         More info regarding the quiz generator should go here. 
       </p>
@@ -191,170 +209,211 @@ export default function QuizForm() {
 
       {activeTab === 'form' && (
    <form onSubmit={handleSubmit} className="space-y-2">
-  <div className="grid grid-cols-2 gap-4">
-    <div className="col-span-2 md:col-span-1">
-      <label className="block mb-1 font-medium">Quiz Topic</label>
-      <input
-        type="text"
-        name="quizTopic"
-        value={formData.quizTopic}
-        onChange={handleChange}
-        className="w-[100%] p-2 bg-[#FFFFFF] border-none rounded"
-        required
-      />
-    </div>
-    <div className="col-span-2 md:col-span-1">
-      <label className="block mb-1 font-medium">Target Audience</label>
-      <input
-        type="text"
-        name="targetAudience"
-        value={formData.targetAudience}
-        onChange={handleChange}
-        className="w-[100%] p-2 bg-[#FFFFFF] border-none rounded"
-        required
-      />
-    </div>
-  </div>
-  <div className="grid grid-cols-2 gap-4">
-    <div className="col-span-1 md:col-span-1">
-      <label className="block mb-1 font-medium">Difficulty</label>
-      <select
-        name="difficulty"
-        value={formData.difficulty}
-        onChange={handleChange}
-        className="w-[100%] p-2 bg-[#FFFFFF] border-none rounded"
-        required
-      >
-        <option value="easy">Easy</option>
-        <option value="medium">Medium</option>
-        <option value="hard">Hard</option>
-      </select>
-    </div>
-    <div className="col-span-1 md:col-span-1">
-      <label className="block mb-1 font-medium">Question Type</label>
-      <select
-        name="questionType"
-        value={formData.questionType}
-        onChange={handleChange}
-        className="w-[100%] p-2 bg-[#FFFFFF] border-none rounded"
-        required
-      >
-        <option value="true_false">True/False</option>
-        <option value="multiple_choice">Multiple Choice</option>
-        <option value="short_answer">Short Answer</option>
-      </select>
-    </div>
-  </div>
-  <div className="grid grid-cols-2 gap-4">
-    <div className="col-span-1 md:col-span-1">
-      <label className="block mb-1 font-medium">Country</label>
-      <CustomDropdown
-            selectedValue={formData.country}
-            onChange={handleCountryChange}
-          />
-    </div>
-    <div className="col-span-1 md:col-span-1">
-      <label className="block mb-1 font-medium">No of Question</label>
-      <input
-        type="number"
-        name="numQuestions"
-        value={formData.numQuestions}
-        onChange={handleChange}
-        min="1"
-        max="50"
-        className="w-[100%] p-2 bg-[#FFFFFF] border-none rounded"
-        required
-      />
-    </div>
-  </div>
-  <div className="grid grid-cols-3 gap-2">
-    <div className="col-span-2 md:col-span-1">
-      <label className="block mb-1 font-medium">Include Answers</label>
-      <div className="flex space-x-4">
-        <label className="flex items-center">
-          <input
-            type="radio"
-            name="includeAnswers"
-            value="yes"
-            checked={formData.includeAnswers === "yes"}
-            onChange={handleChange}
-            className="mr-2"
-          />
-          Yes
-        </label>
-        <label className="flex items-center">
-          <input
-            type="radio"
-            name="includeAnswers"
-            value="no"
-            checked={formData.includeAnswers === "no"}
-            onChange={handleChange}
-            className="mr-2"
-          />
-          No
-        </label>
-      </div>
-    </div>
-  </div>
-  <div>
-    <label className="block mb-1 font-medium">Other Info</label>
-    <textarea
-      name="additionalInstructions"
-      value={formData.additionalInstructions}
-      onChange={handleChange}
-      className="w-full p-2 bg-[#FFFFFF] border-none rounded"
-    ></textarea>
-  </div>
-  <button
-    type="submit"
-    className="w-24 p-2 bg-[#434343] text-[#FFFFFF] rounded flex items-center justify-center ml-auto"
-    disabled={isLoading}
-  >
-    {isLoadingx ? (
-      <div className="flex items-center justify-center">
-        <svg
-          className="animate-spin h-5 w-5 mr-3"
-          xmlns="http://www.w3.org/2000/svg"
+   <div className="grid grid-cols-2 gap-4">
+     <div className="col-span-2 md:col-span-1">
+       <label className="block mb-1 font-medium">Quiz Topic</label>
+       <input
+         type="text"
+         name="quizTopic"
+         value={formData.quizTopic}
+         onChange={handleChange}
+         className="w-full p-2 bg-[#FFFFFF] border-none rounded"
+         required
+       />
+     </div>
+     <div className="col-span-2 md:col-span-1">
+       <label className="block mb-1 font-medium">Target Audience</label>
+       <input
+         type="text"
+         name="targetAudience"
+         value={formData.targetAudience}
+         onChange={handleChange}
+         className="w-full p-2 bg-[#FFFFFF] border-none rounded"
+         required
+       />
+     </div>
+   </div>
+   <div className="grid grid-cols-2 gap-4">
+     <div className="col-span-1 md:col-span-1">
+       <label className="block mb-1 font-medium">Difficulty</label>
+       <div className="relative">
+         <select
+           name="difficulty"
+           value={formData.difficulty}
+           onChange={handleChange}
+           onClick={toggleArrow} // Toggle isOpen when clicked
+
+           className="w-full p-2 bg-[#FFFFFF] border-none rounded appearance-none"
+           required
+         >
+           <option value="easy">Easy</option>
+           <option value="medium">Medium</option>
+           <option value="hard">Hard</option>
+         </select>
+         <svg
+          className={`absolute right-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-700 pointer-events-none ${
+            isOpen ? 'rotate-180' : ''
+          }`}
           fill="none"
-          viewBox="0 0 24 24"
-        >
-          <circle
-            className="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            strokeWidth="4"
-          />
-          <path
-            className="opacity-75"
-            fill="currentColor"
-            d="M4 12a8 8 0 018-8V0c4.418 0 8 3.582 8 8s-3.582 8-8 8-8-3.582-8-8z"
-          />
-        </svg>
-        <span></span>
-      </div>
-    ) : (
-      <>
-        Generate
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
           stroke="currentColor"
-          className="ml-2 h-5 w-5"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d="M5 12h14M12 5l7 7-7 7"
-          />
-        </svg>
-      </>
-    )}
-  </button>
-</form>
+           <path
+             strokeLinecap="round"
+             strokeLinejoin="round"
+             strokeWidth="2"
+             d="M19 9l-7 7-7-7"
+           />
+         </svg>
+       </div>
+     </div>
+     <div className="col-span-1 md:col-span-1">
+       <label className="block mb-1 font-medium">Question Type</label>
+       <div className="relative">
+         <select
+           name="questionType"
+           value={formData.questionType}
+           onChange={handleChange}
+           onClick={toggleArrow}
+           className="w-full p-2 bg-[#FFFFFF] border-none rounded appearance-none"
+           required
+         >
+           <option value="true_false">True/False</option>
+           <option value="multiple_choice">Multiple Choice</option>
+           <option value="short_answer">Short Answer</option>
+         </select>
+         <svg
+          className={`absolute right-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-700 pointer-events-none ${
+            isOpen ? 'rotate-180' : ''
+          }`}
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+           <path
+             strokeLinecap="round"
+             strokeLinejoin="round"
+             strokeWidth="2"
+             d="M19 9l-7 7-7-7"
+           />
+         </svg>
+       </div>
+     </div>
+   </div>
+   <div className="grid grid-cols-2 gap-4">
+     <div className="col-span-1 md:col-span-1">
+       <label className="block mb-1 font-medium">Country</label>
+       <CustomDropdown
+         selectedValue={formData.country}
+         onChange={handleCountryChange}
+       />
+     </div>
+     <div className="col-span-1 md:col-span-1">
+       <label className="block mb-1 font-medium">No of Questions</label>
+       <input
+         type="number"
+         name="numQuestions"
+         value={formData.numQuestions}
+         onChange={handleChange}
+         min="1"
+         max="50"
+         className="w-full p-2 bg-[#FFFFFF] border-none rounded"
+         required
+       />
+     </div>
+   </div>
+   <div className="grid grid-cols-3 gap-2">
+     <div className="col-span-2 md:col-span-1">
+       <label className="block mb-1 font-medium">Include Answers</label>
+       <div className="flex space-x-4">
+         <label className="flex items-center">
+           <input
+             type="radio"
+             name="includeAnswers"
+             value="yes"
+             checked={formData.includeAnswers === "yes"}
+             onChange={handleChange}
+             className="mr-2 appearance-none w-4 h-4 border border-gray-300 rounded-sm checked:bg-gray-700 checked:border-transparent focus:outline-none"
+
+           />
+           Yes
+         </label>
+         <label className="flex items-center">
+  <input
+    type="radio"
+    name="includeAnswers"
+    value="no"
+    checked={formData.includeAnswers === "no"}
+    onChange={handleChange}
+    className="mr-2 appearance-none w-4 h-4 border border-gray-300 rounded-sm checked:bg-gray-700 checked:border-transparent focus:outline-none"
+  />
+  No
+</label>
+
+       </div>
+     </div>
+   </div>
+   <div>
+     <label className="block mb-1 font-medium">Other Info</label>
+     <textarea
+       name="additionalInstructions"
+       value={formData.additionalInstructions}
+       onChange={handleChange}
+       className="w-full p-2 bg-[#FFFFFF] border-none rounded"
+     ></textarea>
+   </div>
+   <button
+          type="submit"
+          className="w-26 p-2 bg-[#434343] text-[#FFFFFF] rounded flex items-center justify-center ml-auto"
+          disabled={isLoading}
+        >
+          {isLoadingx ? (
+            <div className="flex items-center justify-center">
+              <svg
+                className="animate-spin h-5 w-5 mr-3"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.96 7.96 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+              Loading...
+            </div>
+          ) : (
+            <>
+              Generate
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                className="ml-2 h-5 w-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M5 12h14M12 5l7 7-7 7"
+                />
+              </svg>
+            </>
+          )}
+        </button>
+ </form>
 
   
    
@@ -363,15 +422,15 @@ export default function QuizForm() {
 
 {activeTab === 'quiz' && (
   <div>
+  
+
+
+
+
+
+
     {renderQuizContent()}
-    <div className="mt-4 flex justify-center">
-      <button
-        onClick={() => setActiveTab('form')}
-        className="bg-[#434343] text-[#FFFFFF] py-2 px-4 rounded hover:bg-[#333333] transition-colors duration-200"
-      >
-        Back to Form
-      </button>
-    </div>
+  
     {!isEmailEntered && (
   <div className="mt-3">
     <div className="text-lg font-semibold text-[#434343] mb-4 text-center mt-4">
