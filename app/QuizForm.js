@@ -187,18 +187,18 @@ export default function QuizForm() {
           Quiz
         </button>
       </div> */}
-    {activeTab ==='quiz' && (<div>
+//     {activeTab ==='quiz' && (<div>
 
-        <div className="mr-2 mb-2">
-      <button
-        onClick={() => setActiveTab('form')}
-        className="bg-[#434343] text-[#FFFFFF] p-2 rounded hover:bg-[#333333] transition-colors duration-200 flex items-center"
-      >
-        <IoArrowBack className="text-white" size={24} />
-      </button>
-    </div>
+//         <div className="mr-2 mb-2">
+//       <button
+//         onClick={() => setActiveTab('form')}
+//         className="bg-[#434343] text-[#FFFFFF] p-2 rounded hover:bg-[#333333] transition-colors duration-200 flex items-center"
+//       >
+//         <IoArrowBack className="text-white" size={24} />
+//       </button>
+//     </div>
 
-</div>)}
+// </div>)}
 
        <h2 className="text-2xl font-semibold mb-2 flex"> <span className='mt-1'>Quiz Generator</span></h2>
       <p className="text-[#434343] mb-4">
