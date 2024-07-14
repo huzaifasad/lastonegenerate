@@ -201,9 +201,9 @@ export default function QuizForm() {
 // </div>)}
 
       // <h2 className="text-2xl font-semibold mb-2 flex"> <span className='mt-1'>Quiz Generator</span></h2>
-      // <p className="text-[#434343] mb-4">
-      //   More info regarding the quiz generator should go here. 
-      // </p>
+      <p className="text-[#434343] mb-4">
+        More info regarding the quiz generator should go here. 
+      </p>
 
      
 
