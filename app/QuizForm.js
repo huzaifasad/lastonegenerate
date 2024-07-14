@@ -187,9 +187,7 @@ export default function QuizForm() {
           Quiz
         </button>
       </div> */}
-    
-
-      <h2 className="text-2xl font-semibold mb-2 flex"> {activeTab ==='quiz' && (<div>
+    {activeTab ==='quiz' && (<div>
 
         <div className="mr-2 mb-2">
       <button
@@ -200,10 +198,12 @@ export default function QuizForm() {
       </button>
     </div>
 
-</div>)}<span className='mt-1'>Quiz Generator</span></h2>
-      <p className="text-[#434343] mb-4">
-        More info regarding the quiz generator should go here. 
-      </p>
+</div>)}
+
+      // <h2 className="text-2xl font-semibold mb-2 flex"> <span className='mt-1'>Quiz Generator</span></h2>
+      // <p className="text-[#434343] mb-4">
+      //   More info regarding the quiz generator should go here. 
+      // </p>
 
      
 
