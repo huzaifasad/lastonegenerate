@@ -366,7 +366,7 @@ export default function QuizForm() {
    </div>
    <button
           type="submit"
-          className="w-26 p-2 bg-[#434343] text-[#FFFFFF] rounded flex items-center justify-center ml-auto"
+          className="w-26 p-2 bg-[#434343] text-[#FFFFFF] p-2 tracking-wide rounded flex items-center justify-center ml-auto"
           disabled={isLoading}
         >
           {isLoadingx ? (
