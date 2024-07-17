@@ -171,7 +171,7 @@ export default function QuizForm() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-[#f3f3f3] p-2 px-5  pb-10 rounded-lg font-space-grotesk text-[#434343]">
+    <div className="max-w-2xl mx-auto bg-[#f3f3f3] p-2 px-5  pb-5 rounded-lg font-space-grotesk text-[#434343]">
        {/* <div className="flex  mb-4 justify-center">
         <button
           onClick={() => setActiveTab('form')}
