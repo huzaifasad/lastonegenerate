@@ -30,6 +30,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
+import Image from 'next/image';
 import { Pagination, PaginationContent, PaginationItem, PaginationPrevious, PaginationLink, PaginationNext } from "@/components/ui/pagination"
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table"
 
@@ -95,8 +96,9 @@ export function Second() {
         <section className="mb-12">
           <h1 className="text-3xl font-bold mb-4">Welcome to the Birth Photography Competition</h1>
           <p className="text-muted-foreground mb-6">
-            Capture the beauty and emotion of birth through your lens and enter our annual competition.
-          </p>
+  Capture the beauty and emotion of birth through your lens and enter our annual competition.
+</p>
+
           <Button size="sm" className="mb-8">
             Submit Entry
           </Button>
@@ -109,7 +111,7 @@ export function Second() {
               {[...Array(12)].map((_, i) => (
                 <Card key={i} className="overflow-hidden">
                   <CardContent className="p-0">
-                    <img
+                    <Image
                       src="/placeholder.svg"
                       alt={`Entry ${i + 1}`}
                       width={400}
@@ -124,7 +126,7 @@ export function Second() {
                           <AvatarFallback>JD</AvatarFallback>
                         </Avatar>
                         <div>
-                          <p className="text-sm font-medium">John Doe</p>
+                          <p className="text-sm font-medium">Huzaifa Saad</p>
                           <p className="text-xs text-muted-foreground">Photographer</p>
                         </div>
                       </div>
@@ -160,14 +162,14 @@ export function Second() {
           </div>
         </section>
         <section className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">Judges' Picks</h2>
+          <h2 className="text-2xl font-bold mb-4">Judges Picks</h2>
           <ScrollArea className="h-[400px] mb-6">
             <div
               className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
               {[...Array(8)].map((_, i) => (
                 <Card key={i} className="overflow-hidden">
                   <CardContent className="p-0">
-                    <img
+                    <Image
                       src="/placeholder.svg"
                       alt={`Judge's Pick ${i + 1}`}
                       width={400}
@@ -241,7 +243,7 @@ export function Second() {
                           <AvatarFallback>JD</AvatarFallback>
                         </Avatar>
                         <div>
-                          <p className="text-sm font-medium">John Doe {i + 1}</p>
+                          <p className="text-sm font-medium">Huzaifa Saad {i + 1}</p>
                           <p className="text-xs text-muted-foreground">Photographer</p>
                         </div>
                       </div>
@@ -291,7 +293,7 @@ export function Second() {
               {[...Array(8)].map((_, i) => (
                 <Card key={i} className="overflow-hidden">
                   <CardContent className="p-0">
-                    <img
+                    <Image
                       src="/placeholder.svg"
                       alt={`Event ${i + 1}`}
                       width={400}
@@ -304,7 +306,7 @@ export function Second() {
                         <p className="text-sm font-medium">Event {i + 1}</p>
                         <Badge variant="secondary">Upcoming</Badge>
                       </div>
-                      <p className="text-xs text-muted-foreground">June 1, 2023 - June 30, 2023</p>
+                      <p className="text-xs text-muted-foreground">June 1, 2024 - June 18, 2024</p>
                     </div>
                   </CardFooter>
                 </Card>
@@ -338,7 +340,7 @@ export function Second() {
       </main>
       <footer className="bg-muted text-muted-foreground py-6 px-6">
         <div className="container mx-auto flex items-center justify-between">
-          <p className="text-sm">&copy; 2023 Birth Photography Competition</p>
+          <p className="text-sm">&copy; 2024 Birth Photography Competition</p>
           <div className="flex items-center gap-4">
             <Link href="#" className="hover:text-muted-foreground/80" prefetch={false}>
               Privacy Policy
