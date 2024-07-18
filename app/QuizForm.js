@@ -171,7 +171,7 @@ export default function QuizForm() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto bg-[#f3f3f3] p-5 rounded-lg shadow-md font-space-grotesk text-[#434343]">
+    <div className="max-w-2xl mx-auto bg-[#f3f3f3] p-2 px-5   font-space-grotesk text-[#434343]">
        {/* <div className="flex  mb-4 justify-center">
         <button
           onClick={() => setActiveTab('form')}
@@ -196,14 +196,14 @@ export default function QuizForm() {
         onClick={() => setActiveTab('form')}
         className="bg-[#434343] text-[#FFFFFF] p-2 rounded hover:bg-[#333333] transition-colors duration-200 flex items-center"
       >
-        <IoArrowBack className="text-white" size={24} />
+        <IoArrowBack className="text-white" size={15} />
       </button>
     </div>
 
-</div>)}<span className='mt-1'>Quiz Generator</span></h2>
-      <p className="text-[#434343] mb-4">
+</div>)}</h2>
+      {/* <p className="text-[#434343] mb-4">
         More info regarding the quiz generator should go here. 
-      </p>
+      </p> */}
 
      
 
