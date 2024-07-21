@@ -31,7 +31,7 @@ Make sure that the answers provided are correct. Only output the quiz title and 
    console.log(country)
     // Make a request to OpenAI
     const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o-mini",
       messages: [{ "role": "user", "content": `${prompt}` }],
     });
 
