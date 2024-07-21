@@ -12,7 +12,22 @@ export async function POST(req) {
     const {country, quizTopic, targetAudience, numQuestions, questionType, difficulty, includeAnswers, additionalInstructions } = body;
 
     // Construct the prompt{
-    const prompt = `Generate a quiz on the topic: ${quizTopic}, for the title of the quiz: ${quizTopic} then ‘Quiz’, for the audience: ${targetAudience}, in the country ${country}, with ${numQuestions} questions, question type: ${questionType}, difficulty level: ${difficulty}, include answers: ${includeAnswers}. Additional instructions: ${additionalInstructions}. Don’t show me any other information, just give me the title and the quiz and dont show like Title: Math Quiz just shown Math Quiz `;
+    const prompt =  `
+Generate a quiz with the following details:
+- *Topic:* ${quizTopic}
+- *Title:* ${quizTopic} Quiz
+- *Audience:* ${targetAudience}
+- *Country:* ${country}
+- *Number of Questions:* ${numQuestions}
+- *Question Type:* ${questionType}
+- *Difficulty Level:* ${difficulty}
+- *Include Answers:* ${includeAnswers}
+
+*Additional Instructions:*
+${additionalInstructions}
+
+Make sure that the answers provided are correct. Only output the quiz title and the quiz questions with their correct answers.
+`
    console.log(country)
     // Make a request to OpenAI
     const response = await openai.chat.completions.create({
