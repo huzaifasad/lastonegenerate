@@ -1,22 +1,44 @@
 import { NextResponse } from 'next/server';
 import OpenAI from "openai";
+import axios from 'axios';
 
-// Initialize OpenAI client
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // Replace with your actual API key
+  apiKey: process.env.OPENAI_API_KEY,
 });
+
+const RECAPTCHA_SECRET_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
 
 export async function POST(req) {
   try {
     const body = await req.json();
-    const {country, quizTopic, targetAudience, numQuestions, questionType, difficulty, includeAnswers, additionalInstructions } = body;
+    const { recaptchaToken, country, quizTopic, targetAudience, numQuestions, questionType, difficulty, includeAnswers, additionalInstructions } = body;
 
-    // Construct the prompt{
-    const prompt = `Generate a quiz on the topic: ${quizTopic}, for the title of the quiz: ${quizTopic} then ‘Quiz’, for the audience: ${targetAudience}, in the country ${country}, with ${numQuestions} questions, question type: ${questionType}, difficulty level: ${difficulty}, include answers: ${includeAnswers}. Additional instructions: ${additionalInstructions}. Don’t show me any other information, just give me the title and the quiz and dont show like Title: Math Quiz just shown Math Quiz `;
-   console.log(country)
-    // Make a request to OpenAI
+    // Verify reCAPTCHA token
+    const recaptchaResponse = await axios.post(`https://www.google.com/recaptcha/api/siteverify?secret=${RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`);
+    
+    if (!recaptchaResponse.data.success) {
+      return NextResponse.json({ error: 'reCAPTCHA verification failed.' }, { status: 400 });
+    }
+
+    const prompt =  `
+      Generate a quiz with the following details:
+      - *Topic:* ${quizTopic}
+      - *Title:* ${quizTopic} Quiz
+      - *Audience:* ${targetAudience}
+      - *Country:* ${country}
+      - *Number of Questions:* ${numQuestions}
+      - *Question Type:* ${questionType}
+      - *Difficulty Level:* ${difficulty}
+      - *Include Answers:* ${includeAnswers}
+      
+      *Additional Instructions:*
+      ${additionalInstructions}
+      
+      Make sure that the answers provided are correct. Only output the quiz title and the quiz questions with their correct answers.
+    `;
+
     const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4o-mini",
       messages: [{ "role": "user", "content": `${prompt}` }],
     });
 
