@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import CustomDropdown from './CustomDropdown'; // Import the custom dropdown component
 import { FaArrowAltCircleLeft } from "react-icons/fa";
 import { IoArrowBack } from "react-icons/io5";
+import ReCAPTCHA from 'react-google-recaptcha';
 
 //import Image from 'next/image';
 // Import flag images
@@ -24,6 +25,8 @@ export default function QuizForm() {
     difficulty: 'easy',
     includeAnswers: 'yes',
     additionalInstructions: '',
+    recaptchaToken: '',
+
   });
 
   const [isLoading, setLoading] = useState(false);
@@ -39,7 +42,9 @@ export default function QuizForm() {
   const handleCheckChange = (e) => {
     setIsChecked(e.target.checked);
   };
-
+  const handleRecaptchaChange = (token) => {
+    setFormData({ ...formData, recaptchaToken: token });
+  };
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -128,47 +133,32 @@ export default function QuizForm() {
   };
 
   const renderQuizContent = () => {
-    if (isEmailEntered) {
-      return (
-        <div className="mt-4 bg-[#E0E0E0] p-2 pr-3 rounded-lg max-h-80 overflow-y-auto">
-          <div className="flex justify-end space-x-2 ">
-            <button
-              onClick={copyToClipboard}
-              className="bg-[#434343] text-[#FFFFFF] py-1 px-3 rounded flex items-center justify-center hover:bg-[#333333] transition-colors duration-200"
-            >
-              <FaCopy className="h-5 w-5" />
-              {/* <span className="ml-2">Copy Content</span> */}
-            </button>
-            <button
-              onClick={printContent}
-              className="bg-[#434343] text-[#FFFFFF] py-1 px-3 rounded flex items-center justify-center hover:bg-[#333333] transition-colors duration-200"
-            >
-              <FaPrint className="h-5 w-5" />
-              {/* <span className="ml-2">Print Content</span> */}
-            </button>
-          </div>
-          <div dangerouslySetInnerHTML={{ __html: quiz.replace(/\n/g, '<br>') }} />
-        </div>
-      );
-    } else {
-      const words = quiz?.split(' ') || [];
-      const firstTenWords = words.slice(0, 10).join(' ');
-      const restOfTheData = words.slice(10).join(' ');
-
-      return (
-        <div className="mt-4 bg-[#E0E0E0] p-2 rounded-lg max-h-96 overflow-y-auto">
-          <div className="text-[#434343] mt-3 pr-10">
-            <div dangerouslySetInnerHTML={{ __html: firstTenWords.replace(/\n/g, '<br>') }} />
-            <div
-              dangerouslySetInnerHTML={{ __html: restOfTheData.replace(/\n/g, '<br>') }}
-              className="blur-lg select-none"
-              style={{ filter: 'blur(5px)', pointerEvents: 'none' }}
-            />
-          </div>
-        </div>
-      );
-    }
+    return (
+      <div className="mt-4 bg-gray-200 p-4 rounded-lg max-h-80 overflow-y-auto">
+      <div className="flex justify-end space-x-2 mb-2">
+        <button
+          onClick={copyToClipboard}
+          className="bg-gray-700 text-white py-1 px-3 rounded flex items-center justify-center hover:bg-gray-600 transition-colors duration-200"
+          aria-label="Copy to Clipboard"
+        >
+          <FaCopy className="h-5 w-5" />
+        </button>
+        <button
+          onClick={printContent}
+          className="bg-gray-700 text-white py-1 px-3 rounded flex items-center justify-center hover:bg-gray-600 transition-colors duration-200"
+          aria-label="Print Content"
+        >
+          <FaPrint className="h-5 w-5" />
+        </button>
+      </div>
+      <div 
+        className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl"
+        dangerouslySetInnerHTML={{ __html: quiz.replace(/\n/g, '<br>') }} 
+      />
+    </div>
+    );
   };
+  
 
   return (
     <div className="max-w-2xl mx-auto bg-[#f3f3f3] p-2 px-5  pb-5 rounded-lg font-space-grotesk text-[#434343]">
@@ -364,6 +354,10 @@ export default function QuizForm() {
        className="w-full p-2 bg-[#FFFFFF] border-none rounded"
      ></textarea>
    </div>
+   <ReCAPTCHA
+          sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+          onChange={handleRecaptchaChange}
+        />
    <button
           type="submit"
           className="w-26 p-2 mb-5 bg-[#434343] text-[#FFFFFF] p-2 tracking-wide rounded flex items-center justify-center ml-auto"
@@ -431,65 +425,7 @@ export default function QuizForm() {
 
     {renderQuizContent()}
   
-    {!isEmailEntered && (
-  <div className="mt-3">
-    <div className="text-lg font-semibold text-[#434343] mb-4 text-center mt-4">
-      Enter your email below to get the full quiz (for free)...
-    </div>
-    <div className="relative m-auto sm:max-w-md flex">
-      <input
-        type="email"
-        value={email}
-        onChange={handleEmailChange}
-        className="flex-grow p-2 border border-gray-400 rounded-l focus:outline-none focus:ring-2 focus:ring-[#434343] outline-none ring-2 ring-[#434343] sm:text-base text-sm"
-        placeholder="Email"
-      />
-      <button
-        onClick={handleEmailSubmit}
-        className="bg-[#434343] text-[#FFFFFF] hover:bg-[#333333] transition-colors  duration-200 rounded-r px-3 ring-2  ring-[#434343] py-1 sm:px-5 sm:py-2 sm:text-base text-sm"
-        style={{ fontSize: '12px' }} // Adjust font size for small screens
-      >
-        {isLoading ? (
-          <div className="flex items-center justify-center">
-            <svg
-              className="animate-spin h-5 w-5 mr-3"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              />
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0c4.418 0 8 3.582 8 8s-3.582 8-8-8-8-3.582-8-8z"
-              />
-            </svg>
-          </div>
-        ) : (
-          'Submit'
-        )}
-      </button>
-    </div>
-    <div className="flex items-center justify-center mt-4">
-      <input
-        type="checkbox"
-        checked={isChecked}
-        onChange={handleCheckChange}
-        className="h-5 w-5 border border-gray-400 rounded-sm bg-white checked:bg-[#434343] checked:border-[#434343] focus:outline-none transition duration-200 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-      />
-      <label className="text-[#434343] sm:text-base text-sm">
-        Tick this box to allow us to send you quiz related emails
-      </label>
-    </div>
-  </div>
-)}
+ 
 
 
 
