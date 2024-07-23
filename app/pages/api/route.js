@@ -6,7 +6,7 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-const RECAPTCHA_SECRET_KEY = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
+const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY;
 
 export async function POST(req) {
   try {
@@ -37,28 +37,6 @@ export async function POST(req) {
       Make sure that the answers provided are correct. Only output the quiz title and the quiz questions with their correct answers.
     `;
 
-<<<<<<< HEAD
-    // Construct the prompt{
-    const prompt =  `
-Generate a quiz with the following details:
-- *Topic:* ${quizTopic}
-- *Title:* ${quizTopic} Quiz
-- *Audience:* ${targetAudience}
-- *Country:* ${country}
-- *Number of Questions:* ${numQuestions}
-- *Question Type:* ${questionType}
-- *Difficulty Level:* ${difficulty}
-- *Include Answers:* ${includeAnswers}
-
-*Additional Instructions:*
-${additionalInstructions}
-
-Make sure that the answers provided are correct. Only output the quiz title and the quiz questions with their correct answers.
-`
-   console.log(country)
-    // Make a request to OpenAI
-=======
->>>>>>> e1a1ee3 (Your descriptive commit message)
     const response = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [{ "role": "user", "content": `${prompt}` }],
