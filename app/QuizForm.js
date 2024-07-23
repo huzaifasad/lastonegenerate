@@ -361,8 +361,7 @@ export default function QuizForm() {
    <button
           type="submit"
           className="w-26 p-2 mb-5 bg-[#434343] text-[#FFFFFF] p-2 tracking-wide rounded flex items-center justify-center ml-auto"
-          disabled={isLoading}
-        >
+ disabled={isLoading || !formData.recaptchaToken}         >
           {isLoadingx ? (
             <div className="flex items-center justify-center">
               <svg
