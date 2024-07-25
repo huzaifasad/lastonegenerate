@@ -132,34 +132,40 @@ export default function QuizForm() {
     printWindow.close();
   };
 
-  const renderQuizContent = () => {
+    const renderQuizContent = () => {
     return (
-      <div className="mt-4 bg-gray-200 p-4 rounded-lg max-h-80 overflow-y-auto">
-      <div className="flex justify-end space-x-2 mb-2">
-        <button
-          onClick={copyToClipboard}
-          className="bg-gray-700 text-white py-1 px-3 rounded flex items-center justify-center hover:bg-gray-600 transition-colors duration-200"
-          aria-label="Copy to Clipboard"
-        >
-          <FaCopy className="h-5 w-5" />
-        </button>
-        <button
-          onClick={printContent}
-          className="bg-gray-700 text-white py-1 px-3 rounded flex items-center justify-center hover:bg-gray-600 transition-colors duration-200"
-          aria-label="Print Content"
-        >
-          <FaPrint className="h-5 w-5" />
-        </button>
+      <div className="mt-4 p-4 rounded-lg max-h-80 overflow-y-auto">
+        <div className="flex justify-between mb-2">
+          <button
+            onClick={() => setActiveTab('form')}
+            className="bg-[#434343] text-[#FFFFFF] p-2 rounded hover:bg-[#333333] transition-colors duration-200 flex items-center"
+          >
+            <IoArrowBack className="text-white" size={15} />
+          </button>
+          <div className="flex space-x-2">
+            <button
+              onClick={copyToClipboard}
+              className="bg-[#434343] text-[#FFFFFF] p-2 rounded hover:bg-[#333333] transition-colors duration-200 flex items-center"
+              aria-label="Copy to Clipboard"
+            >
+              <FaCopy className="h-5 w-5" />
+            </button>
+            <button
+              onClick={printContent}
+              className="bg-[#434343] text-[#FFFFFF] p-2 rounded hover:bg-[#333333] transition-colors duration-200 flex items-center"
+              aria-label="Print Content"
+            >
+              <FaPrint className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+        <div
+          className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl"
+          dangerouslySetInnerHTML={{ __html: quiz.replace(/\n/g, '<br>') }}
+        />
       </div>
-      <div 
-        className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl"
-        dangerouslySetInnerHTML={{ __html: quiz.replace(/\n/g, '<br>') }} 
-      />
-    </div>
     );
   };
-  
-
   return (
     <div className="max-w-2xl mx-auto bg-[#f3f3f3] p-2 px-5  pb-5 rounded-lg font-space-grotesk text-[#434343]">
        {/* <div className="flex  mb-4 justify-center">
