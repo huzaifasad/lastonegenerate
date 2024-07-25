@@ -23,3 +23,10 @@ textarea:focus {
   outline: none;
   box-shadow: 0 0 0 2px rgba(67, 67, 67, 0.25);
 }
+/* styles.css */
+@media only screen and (max-width: 500px) {
+  .recaptcha-container .g-recaptcha {
+    transform: scale(0.77);
+    transform-origin: 0 0;
+  }
+}
