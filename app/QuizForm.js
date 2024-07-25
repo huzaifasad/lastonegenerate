@@ -104,17 +104,7 @@ export default function QuizForm() {
     document.execCommand('copy');
     document.body.removeChild(tempTextArea);
 
-    toast.success('Content copied to clipboard!', {
-      position: 'bottom-right',
-      autoClose: 1000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      bodyClassName: 'text-[#FFFFFF]',
-      className: 'bg-[#434343]',
-    });
+    toast.success('Content copied to clipboard!');
   };
 
   const printContent = () => {
@@ -132,15 +122,31 @@ export default function QuizForm() {
     printWindow.close();
   };
 
-    const renderQuizContent = () => {
+  const renderQuizContent = () => {
+    const formattedQuiz = quiz.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  
     return (
-      <div className="mt-4 p-4 rounded-lg max-h-80 overflow-y-auto">
+      <div className="mt-4  rounded-lg max-h-80 overflow-y-auto">
         <div className="flex justify-between mb-2">
           <button
-            onClick={() => setActiveTab('form')}
+           onClick={() => {
+            setActiveTab('form');
+            setFormData({
+              country: 'US',
+              quizTopic: '',
+              targetAudience: '',
+              numQuestions: 1,
+              questionType: 'true_false',
+              difficulty: 'easy',
+              includeAnswers: 'yes',
+              additionalInstructions: '',
+              recaptchaToken: '',
+            });
+          }}
+          
             className="bg-[#434343] text-[#FFFFFF] p-2 rounded hover:bg-[#333333] transition-colors duration-200 flex items-center"
           >
-            <IoArrowBack className="text-white" size={15} />
+            <IoArrowBack className="text-white" size={18} />
           </button>
           <div className="flex space-x-2">
             <button
@@ -159,13 +165,16 @@ export default function QuizForm() {
             </button>
           </div>
         </div>
-        <div
-          className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl"
-          dangerouslySetInnerHTML={{ __html: quiz.replace(/\n/g, '<br>') }}
-        />
-      </div>
+        <div className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl bg-[#d9d9d9] p-5 rounded" // Change this to your desired text color
+        dangerouslySetInnerHTML={{ __html: formattedQuiz.replace(/\n/g, '<br>') }}
+      />
+    </div>
     );
   };
+  
+  
+  
+
   return (
     <div className="max-w-2xl mx-auto bg-[#f3f3f3] p-2 px-5  pb-5 rounded-lg font-space-grotesk text-[#434343]">
        {/* <div className="flex  mb-4 justify-center">
@@ -183,8 +192,9 @@ export default function QuizForm() {
           Quiz
         </button>
       </div> */}
+      {/* back arrow code commment */}
     
-
+{/* 
       <h2 className="text-2xl font-semibold mb-2 flex"> {activeTab ==='quiz' && (<div>
 
         <div className="mr-2 mb-2">
@@ -196,7 +206,7 @@ export default function QuizForm() {
       </button>
     </div>
 
-</div>)}</h2>
+</div>)}</h2> */}
       {/* <p className="text-[#434343] mb-4">
         More info regarding the quiz generator should go here. 
       </p> */}
@@ -360,15 +370,20 @@ export default function QuizForm() {
        className="w-full p-2 bg-[#FFFFFF] border-none rounded"
      ></textarea>
    </div>
-   <ReCAPTCHA
-          sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
-          onChange={handleRecaptchaChange}
-        />
-   <button
+   <div className="w-full recaptcha-container">
+            <ReCAPTCHA
+              sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"
+              onChange={handleRecaptchaChange}
+              className="g-recaptcha"
+              // size="invisible"
+
+            />
+          </div>
+          <button
           type="submit"
           className="w-26 p-2 mb-5 bg-[#434343] text-[#FFFFFF] p-2 tracking-wide rounded flex items-center justify-center ml-auto"
  
-              disabled={isLoading || !formData.recaptchaToken} // Disable button if loading or CAPTCHA not verified
+              disabled={isLoadingx || !formData.recaptchaToken} // Disable button if loading or CAPTCHA not verified
 
             >
           {isLoadingx ? (
